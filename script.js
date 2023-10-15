@@ -1,8 +1,6 @@
 let addSubjectButton = document.getElementById("add_subject_button");
 let inputValues = [];
-let averageDisplay = document.getElementById("average"); 
-
-
+let averageDisplay = document.getElementById("average");  
 
 addSubjectButton.addEventListener("click", function(){
     let form = document.getElementById("grade_form");
@@ -13,37 +11,38 @@ addSubjectButton.addEventListener("click", function(){
     inputElement.value = 0;
     inputElement.placeholder = "Enter a grade";
 
-    inputElement.addEventListener("change", function(event) {
+    let removeButton = document.createElement("button");
+    removeButton.textContent = "Remove Subject";
 
-        console.log(inputValues)
+
+    inputElement.addEventListener("change", function(event) {
         const newValue = parseFloat(event.target.value);
         if (!isNaN(newValue)) {
-            inputValues.push(newValue);
+            // Find the index of the current input element in the form
+            const index = Array.from(form.children).indexOf(event.target);
+            if (index !== -1) {
+                inputValues[index] = newValue; // Update the value in the array
+            }
         }
         updateAverage();
-        console.log("Input value changed to: " + newValue);
     });
 
     form.appendChild(inputElement);
 });
 
 function updateAverage() {
-
     let input_length = inputValues.length;
 
     let i = 0;
     let sum = 0;
     let average = 0;
 
-    while(i < input_length){
-        sum += i;
+    while (i < input_length){
+        sum += inputValues[i];
         i++;
     }
 
-    average = sum / input_length
-
+    average = sum / input_length;
 
     averageDisplay.textContent = average;
-
-  
 }
